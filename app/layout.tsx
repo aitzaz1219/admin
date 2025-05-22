@@ -1,27 +1,51 @@
 import './globals.css'
+import { Inter } from 'next/font/google'
 import Link from 'next/link'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'Admin Dashboard',
+  description: 'Advanced admin dashboard with Tailwind and dark mode',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-100 text-gray-800">
-        <div className="flex h-screen">
-          <aside className="w-64 bg-white border-r p-6 hidden md:block">
-            <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
-            <nav className="space-y-4">
-              <Link href="/" className="block text-gray-700 hover:text-blue-600">Dashboard</Link>
-              <Link href="/users" className="block text-gray-700 hover:text-blue-600">Users</Link>
-              <Link href="/bookings" className="block text-gray-700 hover:text-blue-600">Bookings</Link>
-              <Link href="/services" className="block text-gray-700 hover:text-blue-600">Services</Link>
-              <Link href="/reviews" className="block text-gray-700 hover:text-blue-600">Reviews</Link>
-              <Link href="/analytics" className="block text-gray-700 hover:text-blue-600">Analytics</Link>
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100`}>
+        <div className="flex h-screen overflow-hidden">
+          {/* Sidebar */}
+          <aside className="w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 hidden md:block">
+            <div className="p-6 text-2xl font-bold border-b dark:border-gray-700">
+              Admin Panel
+            </div>
+            <nav className="flex flex-col gap-2 p-4">
+              {[
+                { href: '/', label: 'Dashboard' },
+                { href: '/users', label: 'Users' },
+                { href: '/bookings', label: 'Bookings' },
+                { href: '/services', label: 'Services' },
+                { href: '/reviews', label: 'Reviews' },
+                { href: '/analytics', label: 'Analytics' },
+              ].map(link => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-4 py-2 rounded hover:bg-blue-100 dark:hover:bg-blue-900"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </aside>
+
+          {/* Main content area */}
           <div className="flex-1 flex flex-col">
-            <header className="bg-white shadow px-6 py-4 flex justify-between items-center">
-              <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-              <div className="text-sm text-gray-500">Hello, Admin</div>
+            <header className="bg-white dark:bg-gray-800 shadow px-6 py-4 sticky top-0 z-10 flex justify-between items-center border-b dark:border-gray-700">
+              <h1 className="text-xl font-semibold">Admin Dashboard</h1>
+              <span className="text-sm">Hello, Admin</span>
             </header>
+
             <main className="flex-1 overflow-y-auto p-6">
               {children}
             </main>
